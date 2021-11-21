@@ -3,6 +3,8 @@
 #Implement Client requester code here.
 import socket
 import sys
+from Data import MessageType
+from Data import Message
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 

@@ -1,6 +1,14 @@
 #Implement Client requester code here. The following is example code from https://pymotw.com/2/socket/tcp.html
 import socket
 import sys
+from Data import MessageType
+from Data import Message
+
+#Testing data
+#print >>sys.stderr, 'Enum "%s"' % MessageType(2)
+#message = Message(MessageType(2), "Test string")
+#print >>sys.stderr, 'Message "%s"' % message.messageType
+#print >>sys.stderr, 'Message "%s"' % message.payload
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
