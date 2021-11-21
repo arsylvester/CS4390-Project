@@ -1,38 +1,37 @@
-#Implement server code here.
+#Implement server code here. The following is example code from https://pymotw.com/2/socket/tcp.html
 
-#The following is code used from Assignment 2
-#import socket module
-from socket import *
-serverSocket = socket(AF_INET, SOCK_STREAM)
-#Prepare a sever socket
-port = 9000
-serverSocket.bind(('', port))
-serverSocket.listen(1)
-#Fill in end
+#Implement Client requester code here.
+import socket
+import sys
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+#Bind the socket to the port
+server_address = ('localhost', 10000)
+print >>sys.stderr, 'starting up on %s port %s' % server_address
+sock.bind(server_address)
+
+#listen for connections
+sock.listen(1)
+
 while True:
-    #Establish the connection
-    print('Ready to serve...')
-    connectionSocket, addr = serverSocket.accept() 
+    #Wait for a connection
+    print >>sys.stderr, 'waiting for a connection'
+    connection, client_address = sock.accept()
+
     try:
-        message = connectionSocket.recv(1024) 
-        filename = message.split()[1]
-        f = open(filename[1:])
-        outputdata = f.read() 
-        #Send one HTTP header line into socket
-        #Fill in start
-        connectionSocket.send('\nHTTP/1.1 200 OK\n\n')
-        #Fill in end
-        #Send the content of the requested file to the client
-        for i in range(0, len(outputdata)):
-            connectionSocket.send(outputdata[i])
-        connectionSocket.close()
-    except IOError:
-        #Send response message for file not found
-        #Fill in start
-        connectionSocket.send('\nHTTP/1.1 404 NOT FOUND\n\n')
-        #Fill in end
-        #Close client socket
-        #Fill in start
-        connectionSocket.close()
-        #Fill in end
-serverSocket.close()
+        print>>sys.stderr, 'connection from', client_address
+
+        #Recieve the data in small chunks and restransmit it
+        while True:
+            data = connection.recv(16)
+            print>>sys.stderr, 'received "%s"' % data
+            if data:
+                print>>sys.stderr, 'sending data back to the client'
+                connection.sendall(data)
+            else:
+                print >>sys.stderr, 'no more data from', client_address
+                break
+    finally:
+        #clean up connection
+        connection.close()
