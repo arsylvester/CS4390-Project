@@ -22,7 +22,8 @@ DATABASE = [
         ]
 
 
-# Prints the list specified by user 
+# sorts the list and prints. choice = which sort method will be used 
+# choice = 0 = Random | choice = 1 = Sort by qty | choice = 2 = sort by date
 def returnOrder(choice):
 # If choice = 0 it will print the list in random order 
     if choice == 0:
