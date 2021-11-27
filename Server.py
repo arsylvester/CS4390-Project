@@ -8,7 +8,7 @@ from theThreeFucntions import *
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 #Bind the socket to the port
-server_address = ('localhost', 10000)
+server_address = (sys.argv[1], int(sys.argv[2]))
 print('starting up on %s port %s' % server_address)
 sock.bind(server_address)
 
@@ -30,19 +30,22 @@ while True:
             if data:
                 dataList = data.split()
                 messageType = dataList[0]
+                returnMessage = ""
 
                 if(messageType == "GET"):
                     returnOrder(int(dataList[1]))
-                    connection.sendall("Returning data")
+                    returnMessage = "Returning data"
                 elif(messageType == "DEL"):
                     deleteFromList(dataList[1].lower(), len(DATABASE))
-                    connection.sendall(dataList[1].lower() + " has been deleted.")
+                    returnMessage = dataList[1].lower() + " has been deleted."
                 elif(messageType == "UPDATE"):
                     updateQuantity(dataList[1].lower(), 16, int(dataList[2]))
-                    connection.sendall(dataList[1] + " Has been added")
+                    returnMessage = dataList[1] + " Has been added"
                 else:
                     #There is an error, return error
-                    connection.sendall(b"ERROR: Can not process Header.")
+                    returnMessage = "ERROR: Can not process Header."
+
+                connection.sendall(returnMessage.encode("utf-8"))
             else:
                 print('no more data from', client_address)
                 break

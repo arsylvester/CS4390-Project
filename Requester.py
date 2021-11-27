@@ -24,7 +24,7 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 keepRunning = True
 
 #Connect the socket to the port where the server is listening
-server_address = ('localhost', 10000)
+server_address = (sys.argv[1], int(sys.argv[2]))
 print('connecting to %s port %s' % server_address)
 sock.connect(server_address)
 
