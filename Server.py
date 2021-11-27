@@ -25,7 +25,7 @@ while True:
 
         #Recieve the data in small chunks and restransmit it
         while True:
-            data = connection.recv(1024)
+            data = connection.recv(1024).decode()
             print('received "%s"' % data)
             if data:
                 dataList = data.split()
@@ -39,8 +39,8 @@ while True:
                     deleteFromList(dataList[1].lower(), len(DATABASE))
                     returnMessage = dataList[1].lower() + " has been deleted."
                 elif(messageType == "UPDATE"):
-                    updateQuantity(dataList[1].lower(), 16, int(dataList[2]))
-                    returnMessage = dataList[1] + " Has been added"
+                    updateQuantity(dataList[1].lower(), len(DATABASE), int(dataList[2]))
+                    returnMessage = dataList[1].lower() + " Has been added"
                 else:
                     #There is an error, return error
                     returnMessage = "ERROR: Can not process Header."
