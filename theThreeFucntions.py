@@ -1,25 +1,8 @@
 # deta is sotred (Name, Quantity, Date). 
 #Date is stored year-month-day
 #               xxxx-xx-xx
-DATABASE = [
-            ('milk', 10, "2013-02-07"),
-            ('butter', 5, "2021-04-20"),
-            ('cheese', 20, "2020-10-10"),
-            ('tuna', 1, "2010-04-10"),
-            ('sugar', 40, "2021-05-10"),
-            ('beer', 5, "2021-07-04"),
-            ('wine', 50, "2008-12-30"),
-            ('yogurt', 20, "2005-12-15"),
-            ('oil', 1, "2011-10-04"),
-            ('rice', 21, "2018-05-28"),
-            ('water', 10, "2000-01-01"),
-            ('beans', 0, "2001-05-05"),
-            ('onions', 17, "2011-10-30"),
-            ('honey', 6, "2005-08-21"),
-            ('toothpaste', 120, "2009-11-06"),
-            ('salt', 12, "2003-12-30"),
-            ('nuts', 1000, "1990-05-21")
-        ]
+with open ('Database.txt') as load_file:
+    DATABASE = [tuple(line.split()) for line in load_file]
 
 
 # sorts the list and prints. choice = which sort method will be used 
@@ -87,25 +70,3 @@ def updateQuantity(name, size, qty):
         tempList[1] = qty
         DATABASE[index2] = tuple(tempList)
         return True
-
-
-
-
-
-# This is a lil test. will not stay
-# Each fucntion have been tested!
-sizeOfList = len(DATABASE)
-didItWork = updateQuantity("Milk", sizeOfList, 10000)
-
-if didItWork == True:
-    returnOrder(2)
-
-elif didItWork == False:
-    Print("Item not in list")
-
-
-
-
-
-    
-    
