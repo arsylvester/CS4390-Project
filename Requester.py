@@ -7,7 +7,7 @@ def printMessage():
     print ("\tCTP Test Case")
 
     print ("Command GET: (GET , *Order Flag)")
-    print ("\t0 - Sort by Name")
+    print ("\t0 - No Order")
     print ("\t1 - Sort by Qty")
     print ("\t2 - Sort by Date")
     print ("\tReturns: Sorted Database")
