@@ -3,8 +3,7 @@
 #Implement Client requester code here.
 import socket
 import sys
-from Data import MessageType
-from Data import Message
+from theThreeFucntions import *
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -26,11 +25,24 @@ while True:
 
         #Recieve the data in small chunks and restransmit it
         while True:
-            data = connection.recv(16)
+            data = connection.recv(1000)
             print>>sys.stderr, 'received "%s"' % data
             if data:
-                print>>sys.stderr, 'sending data back to the client'
-                connection.sendall(data)
+                dataList = data.split()
+                messageType = dataList[0]
+
+                if(messageType == "GET"):
+                    returnOrder(int(dataList[1]))
+                    connection.sendall("Returning data")
+                elif(messageType == "DEL"):
+                    deleteFromList(dataList[1].lower(), 16)
+                    connection.sendall(dataList[1].lower() + " has been deleted.")
+                elif(messageType == "UPDATE"):
+                    updateQuantity(dataList[1].lower(), 16, int(dataList[2]))
+                    connection.sendall(dataList[1] + " Has been added")
+                else:
+                    #There is an error, return error
+                    connection.sendall("ERROR: Can not process Header.")
             else:
                 print >>sys.stderr, 'no more data from', client_address
                 break
