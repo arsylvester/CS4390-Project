@@ -33,10 +33,10 @@ while True:
                 returnMessage = ""
 
                 if(messageType == "GET"):
-                    #returnOrder(int(dataList[1]))
+                    returnOrder(int(dataList[1]))
                     fileToSend = open('Database.txt')
                     
-                    returnMessage = "RETURN " + fileToSend.read(1024)
+                    returnMessage = "RETURN \n\n" + fileToSend.read(1024)
                     connection.sendall(returnMessage.encode("utf-8"))
                     leftToSend = fileToSend.read(1024)
                     #If anything left in file make sure to send
@@ -56,6 +56,7 @@ while True:
                     returnMessage = "ERROR: Can not process Header."
 
                 connection.sendall(returnMessage.encode("utf-8"))
+                fileToSend.close()
             else:
                 print('no more data from', client_address)
                 break
