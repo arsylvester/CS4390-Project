@@ -10,24 +10,33 @@ with open ('Database.txt') as load_file:
 def returnOrder(choice):
 # If choice = 0 it will print the list in random order 
     if choice == 0:
-        print("\tData is sorted by name")
         DATABASE.sort(key=lambda row: row[0])
-        for d in DATABASE:
-            print("{:10s} {:5} {:10}".format(*d))
+
+        f = open("Database.txt", "w")
+        for t in DATABASE:
+            line = ' '.join(str(x) for x in t)
+            f.write(line + '\n')
+        f.close()
 
 # If choice = 1 it will print the list in qty order
     elif choice == 1:
         DATABASE.sort(key=lambda row: int(row[1]))
-        print("\tData is sorted by QTY")
-        for d in DATABASE:
-            print("{:10s} {:5} {:10}".format(*d))
+
+        f = open("Database.txt", "w")
+        for t in DATABASE:
+            line = ' '.join(str(x) for x in t)
+            f.write(line + '\n')
+        f.close()
 
 # If choice = 2 it will print the list in date order
     elif choice == 2:
         DATABASE.sort(key=lambda row: row[2])
-        print("\tThis is ordered by date")
-        for d in DATABASE:
-            print("{:10s} {:5} {:10}".format(*d))
+
+        f = open("Database.txt", "w")
+        for t in DATABASE:
+            line = ' '.join(str(x) for x in t)
+            f.write(line + '\n')
+        f.close()
     else:
         print("Error printing order...")
         
@@ -84,3 +93,4 @@ def updateQuantity(name, size, qty):
         tempList[1] = qty
         DATABASE[index2] = tuple(tempList)
         return True
+
