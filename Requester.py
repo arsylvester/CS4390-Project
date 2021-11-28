@@ -38,12 +38,12 @@ while(keepRunning):
 
     try:
         #Send command
-        print('Sending "%s"' % message)
+        print('\nSending "%s"' % message)
         sock.sendall(message.encode("utf-8"))
 
         #look for the response
         data = sock.recv(1024).decode()
-        print('recieved "%s"' % data)
+        print('recieved "%s"\n' % data)
 
         dataList = data.split()
         messageType = dataList[0]
@@ -56,12 +56,9 @@ while(keepRunning):
             fileRecieved.close()
 
     finally:
-        print('closing socket')
         sock.shutdown(socket.SHUT_WR)
 
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     #server_address = ('localhost', 10000)
-    print('connecting to %s port %s' % server_address)
     sock.connect(server_address)
-
