@@ -33,14 +33,24 @@ while True:
                 returnMessage = ""
 
                 if(messageType == "GET"):
-                    returnOrder(int(dataList[1]))
-                    returnMessage = "Returning data"
+                    #returnOrder(int(dataList[1]))
+                    fileToSend = open('Database.txt')
+                    
+                    returnMessage = "RETURN " + fileToSend.read(1024)
+                    connection.sendall(returnMessage.encode("utf-8"))
+                    leftToSend = fileToSend.read(1024)
+                    #If anything left in file make sure to send
+                    while(leftToSend):
+                        leftToSend = fileToSend.read(1024)
+                        connection.sendall(leftToSend.encode("utf-8"))
+                    fileToSend.close()
+                    break
                 elif(messageType == "DEL"):
                     deleteFromList(dataList[1].lower(), len(DATABASE))
-                    returnMessage = dataList[1].lower() + " has been deleted."
+                    returnMessage = "DACK " + dataList[1].lower()
                 elif(messageType == "UPDATE"):
                     updateQuantity(dataList[1].lower(), len(DATABASE), int(dataList[2]))
-                    returnMessage = dataList[1].lower() + " Has been added"
+                    returnMessage = "UACK " + dataList[1].lower() + " " + dataList[2]
                 else:
                     #There is an error, return error
                     returnMessage = "ERROR: Can not process Header."

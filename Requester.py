@@ -42,14 +42,19 @@ while(keepRunning):
         sock.sendall(message.encode("utf-8"))
 
         #look for the response
-        amount_received = 0
-        #what is this???
-        amount_expected = len(message)
+        data = sock.recv(1024).decode()
+        print('recieved "%s"' % data)
 
-        while amount_received < amount_expected:
-            data = sock.recv(1000)
-            amount_received += len(data)
-            print('recieved "%s"' % data)
+        dataList = data.split()
+        messageType = dataList[0]
+        if(messageType == "RETURN"):
+            fileRecieved = open("RecievedFile.txt", "w")
+            data = data[7:] #Ignore RETURN + space
+            while(data):
+                fileRecieved.write(data)
+                data = sock.recv(1024).decode()
+            fileRecieved.close()
+
     finally:
         print('closing socket')
         sock.shutdown(socket.SHUT_WR)
