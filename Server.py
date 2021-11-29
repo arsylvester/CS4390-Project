@@ -31,7 +31,12 @@ while True:
                 returnMessage = ""
 
                 if(messageType == "GET"):
-                    returnOrder(int(dataList[1]))
+                    if(len(dataList) > 1 and dataList[1].isdigit() and 0 <= int(dataList[1]) < 3):
+                        returnOrder(int(dataList[1]))
+                    else:
+                        returnMessage = "ERROR: Improper GET Header"
+                        connection.sendall(returnMessage.encode("utf-8"))
+                        break
                     fileToSend = open('Database.txt')
                     
                     returnMessage = "RETURN " + fileToSend.read(1024)
@@ -44,9 +49,17 @@ while True:
                     fileToSend.close()
                     break
                 elif(messageType == "DEL"):
+                    if(len(dataList) <= 1):
+                        returnMessage = "ERROR: Improper DEL Header"
+                        connection.sendall(returnMessage.encode("utf-8"))
+                        break
                     deleteFromList(dataList[1].lower(), len(DATABASE))
                     returnMessage = "DACK " + dataList[1].lower()
                 elif(messageType == "UPDATE"):
+                    if(len(dataList) <= 2 or not dataList[2].isdigit()):
+                        returnMessage = "ERROR: Improper UPDATE Header"
+                        connection.sendall(returnMessage.encode("utf-8"))
+                        break
                     updateQuantity(dataList[1].lower(), len(DATABASE), int(dataList[2]))
                     returnMessage = "UACK " + dataList[1].lower() + " " + dataList[2]
                 else:

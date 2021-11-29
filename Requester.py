@@ -31,6 +31,10 @@ while(keepRunning):
     print("\n")
     printMessage()
     message = input("Enter Command: ")
+
+    if message == "":
+        print("\nNothing inputed, please try again.")
+        continue
     
     if message == 'q':
         keepRunning = False
