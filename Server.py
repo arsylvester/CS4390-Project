@@ -1,5 +1,3 @@
-#Implement server code here. The following is example code from https://pymotw.com/2/socket/tcp.html
-
 #Implement Client requester code here.
 import socket
 import sys
@@ -36,7 +34,7 @@ while True:
                     returnOrder(int(dataList[1]))
                     fileToSend = open('Database.txt')
                     
-                    returnMessage = "RETURN \n\n" + fileToSend.read(1024)
+                    returnMessage = "RETURN " + fileToSend.read(1024)
                     connection.sendall(returnMessage.encode("utf-8"))
                     leftToSend = fileToSend.read(1024)
                     #If anything left in file make sure to send
@@ -56,7 +54,6 @@ while True:
                     returnMessage = "ERROR: Can not process Header."
 
                 connection.sendall(returnMessage.encode("utf-8"))
-                fileToSend.close()
             else:
                 print('no more data from', client_address)
                 break

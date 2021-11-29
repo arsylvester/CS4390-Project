@@ -1,4 +1,3 @@
-#Implement Client requester code here. The following is example code from https://pymotw.com/2/socket/tcp.html
 import socket
 import sys
 
@@ -7,7 +6,7 @@ def printMessage():
     print ("\tCTP Test Case")
 
     print ("Command GET: (GET , *Order Flag)")
-    print ("\t0 - No Order")
+    print ("\t0 - Sort by Name")
     print ("\t1 - Sort by Qty")
     print ("\t2 - Sort by Date")
     print ("\tReturns: Sorted Database")
@@ -35,6 +34,8 @@ while(keepRunning):
     
     if message == 'q':
         keepRunning = False
+        sock.shutdown(socket.SHUT_WR)
+        break
 
     try:
         #Send command
