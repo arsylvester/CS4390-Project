@@ -34,7 +34,7 @@ while True:
                     if(len(dataList) > 1 and dataList[1].isdigit() and 0 <= int(dataList[1]) < 3):
                         returnOrder(int(dataList[1]))
                     else:
-                        returnMessage = "ERROR: Improper GET Header"
+                        returnMessage = "ERROR 0"
                         connection.sendall(returnMessage.encode("utf-8"))
                         break
                     fileToSend = open('Database.txt')
@@ -50,26 +50,33 @@ while True:
                     break
                 elif(messageType == "DEL"):
                     if(len(dataList) <= 1):
-                        returnMessage = "ERROR: Improper DEL Header"
+                        returnMessage = "ERROR 0"
                         connection.sendall(returnMessage.encode("utf-8"))
                         break
-                    deleteFromList(dataList[1].lower(), len(DATABASE))
-                    returnMessage = "DACK " + dataList[1].lower()
+                    if(deleteFromList(dataList[1].lower(), len(DATABASE))):
+                        returnMessage = "DACK " + dataList[1].lower()
+                    else:
+                        returnMessage = "ERROR 1"
                 elif(messageType == "UPDATE"):
                     if(len(dataList) <= 2 or not dataList[2].isdigit()):
-                        returnMessage = "ERROR: Improper UPDATE Header"
+                        returnMessage = "ERROR 0"
                         connection.sendall(returnMessage.encode("utf-8"))
                         break
-                    updateQuantity(dataList[1].lower(), len(DATABASE), int(dataList[2]))
-                    returnMessage = "UACK " + dataList[1].lower() + " " + dataList[2]
+                    if(updateQuantity(dataList[1].lower(), len(DATABASE), int(dataList[2]))):
+                        returnMessage = "UACK " + dataList[1].lower() + " " + dataList[2]
+                    else:
+                        returnMessage = "ERROR 1"
                 else:
                     #There is an error, return error
-                    returnMessage = "ERROR: Can not process Header."
+                    returnMessage = "ERROR 0"
 
                 connection.sendall(returnMessage.encode("utf-8"))
             else:
                 print('no more data from', client_address)
                 break
+    except:
+        returnMessage = "ERROR 2"
+        connection.sendall(returnMessage.encode("utf-8"))
     finally:
         #clean up connection
         connection.close()

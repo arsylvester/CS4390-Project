@@ -86,7 +86,7 @@ def updateQuantity(name, size, qty):
         f.write(line + '\n')
     f.close()
 
-    if index == -1:
+    if index2 == -1:
         return False
     else:
         tempList = list(DATABASE[index2])

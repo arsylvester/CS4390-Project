@@ -59,7 +59,14 @@ while(keepRunning):
                 fileRecieved.write(data)
                 data = sock.recv(1024).decode()
             fileRecieved.close()
-
+        elif(messageType == "ERROR"):
+            errorType = dataList[1]
+            if(errorType == "0"):
+                print('Message format issue. Be insure your header is correct.')
+            elif(errorType == "1"):
+                print('Name not found.')
+            elif(errorType == "2"):
+                print('Error occured on server end.')
     finally:
         sock.shutdown(socket.SHUT_WR)
 
