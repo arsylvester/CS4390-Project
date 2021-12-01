@@ -1,3 +1,5 @@
+#theThreeFunctions.py: These are all of the commands that the server uses to interact with the database.
+
 # deta is sotred (Name, Quantity, Date). 
 #Date is stored year-month-day
 #               xxxx-xx-xx

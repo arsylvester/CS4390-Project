@@ -1,0 +1,7 @@
+To Run a Server:
+    1. In a command line navigate to a folder with Server.py, theThreeFunctions.py, and Database.txt
+    2. Run server with this command: "python Server.py <IP Address> <Port #>"
+
+To Run a Client:
+    1. In a command line navigate to a folder with Requester.py
+    2. Run server with this command: "python Requester.py <IP Address> <Port #>"

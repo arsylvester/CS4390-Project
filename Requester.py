@@ -1,3 +1,5 @@
+#Requester.py: The client application that sends CTP messages to the server. Includes a simple text UI
+# to help the user send CTP messages.
 import socket
 import sys
 
@@ -27,6 +29,7 @@ server_address = (sys.argv[1], int(sys.argv[2]))
 print('connecting to %s port %s' % server_address)
 sock.connect(server_address)
 
+#Loop tell user says to quit
 while(keepRunning):
     print("\n")
     printMessage()
@@ -50,19 +53,23 @@ while(keepRunning):
         data = sock.recv(1024).decode()
         print('recieved "%s"\n' % data)
 
+        #Split up CTP message to process
         dataList = data.split()
         messageType = dataList[0]
+
+        #Check the message type and process accordingly   
         if(messageType == "RETURN"):
+            #Prepare to recieve a file
             fileRecieved = open("RecievedFile.txt", "w")
             data = data[7:] #Ignore RETURN + space
             while(data):
                 fileRecieved.write(data)
                 data = sock.recv(1024).decode()
             fileRecieved.close()
-        elif(messageType == "ERROR"):
+        elif(messageType == "ERROR"): #Display to user type of error recieved.
             errorType = dataList[1]
             if(errorType == "0"):
-                print('Message format issue. Be insure your header is correct.')
+                print('Message format issue. Please check that your header is correct.')
             elif(errorType == "1"):
                 print('Name not found.')
             elif(errorType == "2"):
@@ -70,7 +77,5 @@ while(keepRunning):
     finally:
         sock.shutdown(socket.SHUT_WR)
 
-
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    #server_address = ('localhost', 10000)
     sock.connect(server_address)
